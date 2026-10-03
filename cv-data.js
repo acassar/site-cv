@@ -40,10 +40,10 @@ window.CV = {
 
   skills: [
     {
-      group: "Langages",
+      group: "Langages & frameworks",
       items: [
         { label: "Vue · TS", favorite: true },
-        { label: "NestJS" },
+        { label: "Node.js" },
         { label: "React · React Native" },
         { label: "Flutter · Dart" },
       ],
@@ -71,12 +71,12 @@ window.CV = {
       detail: "Logiciels de santé",
       missions: [
         {
-          stack: "Vue.js 3",
-          text: "Développement d'une application web de gestion administrative du patient",
+          stack: "Vue.js 3 · GitLab · Jira",
+          text: "Garant technique du front, mentorat et revue de code sur une équipe de 10 développeurs répartis sur 2 pays",
         },
         {
-          stack: "Vue.js 3, Gitlab, Jira",
-          text: "Garant technique du front, mentorat et revue de code",
+          stack: "Vue.js 3",
+          text: "Développement d'une application web de gestion administrative du patient",
         },
       ],
     },
@@ -86,7 +86,7 @@ window.CV = {
       detail: "Protection incendie",
       missions: [
         {
-          stack: "React + .NET",
+          stack: "React · .NET",
           text: "Développement et design d'un portail web de gestion",
         },
         {
@@ -102,11 +102,11 @@ window.CV = {
       missions: [
         {
           stack: "Flutter",
-          text: "Développement d'une app mobile de suivi du cycle de vie produit logistique",
+          text: "Développement d'une app mobile de suivi du cycle de vie des produits logistiques",
         },
         {
-          stack: "Vue.js + Node.js",
-          text: "Développements sur le portail web, cycle de vie produit logistique",
+          stack: "Vue.js · Node.js",
+          text: "Évolutions du portail web de suivi du cycle de vie des produits",
         },
       ],
     },
