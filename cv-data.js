@@ -5,7 +5,7 @@ window.CV = {
   photo: "photo.jpg",
   careerStart: "2019-07",
   summary:
-    "Développeur fullstack orienté frontend avec {years} ans d'expérience. Référent technique front, autonome et habitué aux projets complexes, je m'investis dans la création d'interfaces efficaces et scalables, tout en garantissant la qualité du code et l'expérience utilisateur.",
+    "Développeur fullstack orienté frontend avec {years} ans d'expérience sur des applications métier web et mobile, dans la santé et la logistique. Référent technique front, je conçois des interfaces efficaces et maintenables en garantissant la qualité du code et l'expérience utilisateur.",
 
   contact: [
     { icon: "pin", label: "Bordeaux · hybride ou 100 % télétravail" },
@@ -59,12 +59,12 @@ window.CV = {
     {
       group: "Outils",
       items: [
-        { label: "Git · GitHub" },
+        { label: "Git · GitLab · GitHub" },
         { label: "IA générative (Claude Code)" },
-        { label: "CI/CD" },
-        { label: "SQL · NoSQL" },
-        { label: "Docker" },
-        { label: "Figma" },
+        { label: "Tests · Vitest" },
+        { label: "CI/CD · Azure DevOps · Bitrise" },
+        { label: "SQL · NoSQL · Docker" },
+        { label: "Jira · Figma" },
       ],
     },
   ],
@@ -79,12 +79,12 @@ window.CV = {
       detail: "Logiciels de santé · ex-Maincare",
       missions: [
         {
-          stack: "Vue.js 3 · GitLab · Jira",
-          text: "Garant technique du front, mentorat et revue de code sur une équipe de 10 développeurs répartis sur 2 pays",
+          stack: "Vue.js 3 · ESLint · GitLab",
+          text: "Référent technique front : standards, revue de code et mentorat d'une équipe de 10 développeurs sur 2 pays",
         },
         {
-          stack: "Vue.js 3",
-          text: "Développement d'une application web de gestion administrative du patient",
+          stack: "Vue.js 3 · TypeScript · Vitest",
+          text: "Refonte d'un client lourd en application web, démarrée de zéro : dossier patient, couverture sociale, facturation",
         },
       ],
     },
@@ -95,11 +95,11 @@ window.CV = {
       missions: [
         {
           stack: "React · .NET",
-          text: "Développement et design d'un portail web de gestion",
+          text: "Développement et design de l'app web de gestion interne du siège : installations, clients, stocks",
         },
         {
           stack: "React Native",
-          text: "Reprise d'une application mobile opérationnelle utilisée par les techniciens",
+          text: "Reprise de l'app mobile des techniciens qui interviennent sur les installations anti-incendie",
         },
       ],
     },
@@ -109,12 +109,12 @@ window.CV = {
       detail: "Location de matériel logistique",
       missions: [
         {
-          stack: "Flutter",
-          text: "Développement d'une app mobile de suivi du cycle de vie des produits logistiques",
+          stack: "Flutter · Bitrise",
+          text: "App mobile logistique internationale créée de A à Z : scan Zebra, hors-ligne, 1 million d'articles",
         },
         {
-          stack: "Vue.js · Node.js",
-          text: "Évolutions du portail web de suivi du cycle de vie des produits",
+          stack: "Vue.js · Node.js · Azure DevOps",
+          text: "Module web de fin de cycle produit : planning des collectes, relances e-mail automatiques, statistiques",
         },
       ],
     },
