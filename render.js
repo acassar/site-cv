@@ -95,17 +95,55 @@
           <small>${esc(x.detail)}</small>
         </div>
       </div>
-      ${x.missions
-        .map(
-          (m) => `<div class="msg out">
-            <div class="bubble">
-              <p>${esc(m.text)}</p>
-              <div class="meta"><span class="stack">${esc(m.stack)}</span><svg class="ticks" viewBox="0 0 22 16" aria-hidden="true"><path d="m1.5 8.5 4 4 9-10m-5 10 9-10"/></svg></div>
-            </div>
-          </div>`
-        )
-        .join("")}
+      ${x.missions.map(mission).join("")}
     </section>`;
+
+  const bullets = (items) => `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`;
+
+  function mission(m) {
+    const body = `<p>${esc(m.text)}</p>
+      <div class="meta">${
+        m.details
+          ? '<span class="more-hint">Détails<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>'
+          : ""
+      }<span class="stack">${esc(m.stack)}</span><svg class="ticks" viewBox="0 0 22 16" aria-hidden="true"><path d="m1.5 8.5 4 4 9-10m-5 10 9-10"/></svg></div>`;
+    return `<div class="msg out">${
+      m.details
+        ? `<details class="bubble"><summary>${body}</summary><div class="more">${bullets(m.details)}</div></details>`
+        : `<div class="bubble">${body}</div>`
+    }</div>`;
+  }
+
+  const detailBlock = (x) => `
+    <section class="detail-block">
+      <div class="detail-company">
+        <div class="avatar">${esc(initials(x.company))}</div>
+        <div><strong>${esc(x.company)}</strong><small>${esc(x.detail)}</small></div>
+        <span class="period">${esc(x.period)}</span>
+      </div>
+      <div class="detail-missions">
+        ${x.missions
+          .filter((m) => m.details)
+          .map(
+            (m) => `<article class="detail-mission">
+              <h3>${esc(m.text)}</h3>
+              <span class="stack">${esc(m.stack)}</span>
+              ${bullets(m.details)}
+            </article>`
+          )
+          .join("")}
+      </div>
+    </section>`;
+
+  const detailsPage = `
+    <header class="details-header">
+      <div>
+        <h2>${esc(cv.firstName)} <span>${esc(cv.lastName)}</span></h2>
+        <p>&gt; Réalisations en détail</p>
+      </div>
+      <span class="page-num">2/2</span>
+    </header>
+    ${cv.experience.map(detailBlock).join("")}`;
 
   const main = `
     <div class="main">
@@ -123,7 +161,17 @@
     </div>`;
 
   document.getElementById("cv").innerHTML = main + sidebar;
-  if (new URLSearchParams(location.search).has("og")) document.body.classList.add("og");
+  document.getElementById("cv-details").innerHTML = detailsPage;
+
+  const params = new URLSearchParams(location.search);
+  if (params.has("og")) document.body.classList.add("og");
+  if (params.has("complet")) document.body.classList.add("complete");
   document.title = `${cv.firstName} ${cv.lastName} — CV`;
-  document.getElementById("print-btn").addEventListener("click", () => window.print());
+
+  const print = (complete) => {
+    document.body.classList.toggle("complete", complete);
+    window.print();
+  };
+  document.getElementById("print-btn").addEventListener("click", () => print(false));
+  document.getElementById("print-full-btn").addEventListener("click", () => print(true));
 })();
