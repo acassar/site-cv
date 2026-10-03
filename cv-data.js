@@ -8,29 +8,53 @@ window.CV = {
 
   contact: [
     { icon: "phone", label: "06 47 88 49 26", href: "tel:+33647884926" },
-    { icon: "mail", label: "pro@adrien-cassar.fr", href: "mailto:pro@adrien-cassar.fr" },
-    { icon: "github", label: "github.com/acassar", href: "https://github.com/acassar" },
+    {
+      icon: "mail",
+      label: "pro@adrien-cassar.fr",
+      href: "mailto:pro@adrien-cassar.fr",
+    },
+    {
+      icon: "github",
+      label: "github.com/acassar",
+      href: "https://github.com/acassar",
+    },
   ],
 
   education: [
-    { year: "2019", degree: "Licence pro DAWIN", school: "IUT Informatique, Gradignan" },
-    { year: "2018", degree: "DUT Informatique", school: "IUT Informatique, Gradignan" },
-    { year: "2016", degree: "Bac scientifique", school: "Lycée Maine de Biran, Bergerac" },
+    {
+      year: "2019",
+      degree: "Licence pro DAWIN",
+      school: "IUT Informatique, Gradignan",
+    },
+    {
+      year: "2018",
+      degree: "DUT Informatique",
+      school: "IUT Informatique, Gradignan",
+    },
+    {
+      year: "2016",
+      degree: "Bac scientifique",
+      school: "Lycée Maine de Biran, Bergerac",
+    },
   ],
 
   skills: [
     {
       group: "Langages",
       items: [
-        { label: "Flutter · Dart", favorite: true },
-        { label: "JS · Vue · Node · React" },
+        { label: "Vue · TS", favorite: true },
+        { label: "NestJS" },
+        { label: "React · React Native" },
+        { label: "Flutter · Dart" },
       ],
     },
     {
       group: "Outils",
       items: [
         { label: "Git · GitHub" },
-        { label: "Bash · SQL · NoSQL" },
+        { label: "IA · Claude" },
+        { label: "CI/CD" },
+        { label: "SQL · NoSQL" },
         { label: "Docker" },
         { label: "Figma" },
       ],
@@ -43,28 +67,47 @@ window.CV = {
   experience: [
     {
       period: "Juin 2023 — aujourd'hui",
-      company: "Maincare",
-      detail: "Logiciels de santé · ~600 employés",
+      company: "Docaposte Santé",
+      detail: "Logiciels de santé",
       missions: [
-        { stack: "Vue.js 3", text: "Développement d'une application web de gestion administrative du patient" },
+        {
+          stack: "Vue.js 3",
+          text: "Développement d'une application web de gestion administrative du patient",
+        },
+        {
+          stack: "Vue.js 3, Gitlab, Jira",
+          text: "Garant technique du front, mentorat et revue de code",
+        },
       ],
     },
     {
       period: "Septembre 2022 — Février 2023",
       company: "Groupe Save",
-      detail: "Protection incendie · ~650 employés",
+      detail: "Protection incendie",
       missions: [
-        { stack: "React + .NET", text: "Développement et design d'un portail web de gestion" },
-        { stack: "React Native", text: "Reprise d'une application mobile opérationnelle utilisée par les techniciens" },
+        {
+          stack: "React + .NET",
+          text: "Développement et design d'un portail web de gestion",
+        },
+        {
+          stack: "React Native",
+          text: "Reprise d'une application mobile opérationnelle utilisée par les techniciens",
+        },
       ],
     },
     {
       period: "Juillet 2019 — Septembre 2022",
       company: "Global Packaging Services",
-      detail: "Location de matériel logistique · ~200 employés",
+      detail: "Location de matériel logistique",
       missions: [
-        { stack: "Flutter", text: "Développement d'une app mobile de suivi du cycle de vie produit logistique" },
-        { stack: "Vue.js + Node.js", text: "Développements sur le portail web, cycle de vie produit logistique" },
+        {
+          stack: "Flutter",
+          text: "Développement d'une app mobile de suivi du cycle de vie produit logistique",
+        },
+        {
+          stack: "Vue.js + Node.js",
+          text: "Développements sur le portail web, cycle de vie produit logistique",
+        },
       ],
     },
   ],
