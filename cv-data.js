@@ -1,12 +1,14 @@
 window.CV = {
   firstName: "Adrien",
   lastName: "Cassar",
-  role: "Développeur Front / Fullstack",
+  role: "Développeur Fullstack Vue.js / TypeScript",
   photo: "photo.jpg",
+  careerStart: "2019-07",
   summary:
-    "Développeur front confirmé avec une forte polyvalence fullstack. Autonome, patient et habitué aux projets complexes, je m'investis dans la création d'interfaces efficaces et scalables, tout en garantissant la qualité du code et l'expérience utilisateur.",
+    "Développeur fullstack orienté frontend avec {years} ans d'expérience. Référent technique front, autonome et habitué aux projets complexes, je m'investis dans la création d'interfaces efficaces et scalables, tout en garantissant la qualité du code et l'expérience utilisateur.",
 
   contact: [
+    { icon: "pin", label: "Bordeaux · hybride ou 100 % télétravail" },
     { icon: "phone", label: "06 47 88 49 26", href: "tel:+33647884926" },
     {
       icon: "mail",
@@ -18,23 +20,29 @@ window.CV = {
       label: "github.com/acassar",
       href: "https://github.com/acassar",
     },
+    {
+      icon: "linkedin",
+      label: "linkedin.com/in/adrien-cassar",
+      href: "https://www.linkedin.com/in/adrien-cassar",
+    },
+    {
+      icon: "globe",
+      label: "adrien-cassar.fr",
+      href: "https://adrien-cassar.fr",
+      printOnly: true,
+    },
   ],
 
   education: [
     {
       year: "2019",
-      degree: "Licence pro DAWIN",
-      school: "IUT Informatique, Gradignan",
+      degree: "Licence pro Développement web",
+      school: "DAWIN · IUT Informatique, Gradignan",
     },
     {
       year: "2018",
       degree: "DUT Informatique",
       school: "IUT Informatique, Gradignan",
-    },
-    {
-      year: "2016",
-      degree: "Bac scientifique",
-      school: "Lycée Maine de Biran, Bergerac",
     },
   ],
 
@@ -42,7 +50,7 @@ window.CV = {
     {
       group: "Langages & frameworks",
       items: [
-        { label: "Vue · TS", favorite: true },
+        { label: "Vue.js · TypeScript", favorite: true },
         { label: "Node.js" },
         { label: "React · React Native" },
         { label: "Flutter · Dart" },
@@ -52,7 +60,7 @@ window.CV = {
       group: "Outils",
       items: [
         { label: "Git · GitHub" },
-        { label: "IA · Claude" },
+        { label: "IA générative (Claude Code)" },
         { label: "CI/CD" },
         { label: "SQL · NoSQL" },
         { label: "Docker" },
@@ -61,14 +69,14 @@ window.CV = {
     },
   ],
 
-  languages: ["Anglais"],
+  languages: ["Anglais · professionnel"],
   hobbies: ["Escalade", "Roller", "Jeux vidéo"],
 
   experience: [
     {
       period: "Juin 2023 — aujourd'hui",
       company: "Docaposte Santé",
-      detail: "Logiciels de santé",
+      detail: "Logiciels de santé · ex-Maincare",
       missions: [
         {
           stack: "Vue.js 3 · GitLab · Jira",

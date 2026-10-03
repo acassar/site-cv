@@ -7,6 +7,11 @@
   const icons = {
     phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+    pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+    linkedin:
+      '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-7m0 3a3 3 0 0 1 6 0v4"/>',
+    globe:
+      '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
     github:
       '<path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/>',
   };
@@ -15,6 +20,13 @@
 
   const initials = (s) =>
     s.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
+
+  const yearsSince = (ym) => {
+    const [y, m] = ym.split("-").map(Number);
+    const now = new Date();
+    return Math.floor((now.getFullYear() * 12 + now.getMonth() + 1 - (y * 12 + m)) / 12);
+  };
+  const summary = cv.summary.replace("{years}", yearsSince(cv.careerStart));
 
   const sideTitle = (t) => `<h3 class="side-title">${esc(t)}</h3>`;
 
@@ -28,7 +40,7 @@
       <section>
         ${sideTitle("Contact")}
         <ul class="contact">
-          ${cv.contact.map((c) => `<li>${icon(c.icon)}<a href="${esc(c.href)}">${esc(c.label)}</a></li>`).join("")}
+          ${cv.contact.map((c) => `<li${c.printOnly ? ' class="print-only"' : ""}>${icon(c.icon)}${c.href ? `<a href="${esc(c.href)}">${esc(c.label)}</a>` : `<span>${esc(c.label)}</span>`}</li>`).join("")}
         </ul>
       </section>
 
@@ -98,7 +110,7 @@
       <header class="header">
         <h1 class="name">${esc(cv.firstName)} <span>${esc(cv.lastName)}</span></h1>
         <p class="role">&gt; ${esc(cv.role)}<span class="caret"></span></p>
-        <p class="summary">${esc(cv.summary)}</p>
+        <p class="summary">${esc(summary)}</p>
       </header>
 
       <h2 class="section-title">Expérience professionnelle</h2>
