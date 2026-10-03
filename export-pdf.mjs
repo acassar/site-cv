@@ -9,9 +9,13 @@ const input = pathToFileURL(join(here, "index.html")).href;
 const window = {};
 runInNewContext(readFileSync(join(here, "cv-data.js"), "utf8"), { window });
 const slug = (s) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/[^A-Za-z0-9]+/g, "-");
-const baseName = `${slug(window.CV.firstName)}-${slug(window.CV.lastName)}-CV`;
-const output = join(here, `${baseName}.pdf`);
-const outputFull = join(here, `${baseName}-complet.pdf`);
+const person = `${slug(window.CV.firstName)}-${slug(window.CV.lastName)}`;
+const exports = [
+  { lang: "fr", file: `${person}-CV.pdf` },
+  { lang: "fr", file: `${person}-CV-complet.pdf`, complete: true },
+  { lang: "en", file: `${person}-Resume.pdf` },
+  { lang: "en", file: `${person}-Resume-full.pdf`, complete: true },
+];
 const ogImage = join(here, "og-image.png");
 
 const candidates = [
@@ -35,10 +39,10 @@ if (!browser) {
 const run = (...args) =>
   execFileSync(browser, ["--headless=new", "--disable-gpu", "--virtual-time-budget=5000", ...args], { stdio: "ignore" });
 
-run("--no-pdf-header-footer", `--print-to-pdf=${output}`, input);
-run("--no-pdf-header-footer", `--print-to-pdf=${outputFull}`, `${input}?complet`);
-run("--hide-scrollbars", "--window-size=1200,630", `--screenshot=${ogImage}`, `${input}?og`);
-
-console.log(`PDF généré : ${output}`);
-console.log(`PDF complet généré : ${outputFull}`);
+for (const e of exports) {
+  const output = join(here, e.file);
+  run("--no-pdf-header-footer", `--print-to-pdf=${output}`, `${input}?lang=${e.lang}${e.complete ? "&complet" : ""}`);
+  console.log(`PDF généré : ${output}`);
+}
+run("--hide-scrollbars", "--window-size=1200,630", `--screenshot=${ogImage}`, `${input}?lang=fr&og`);
 console.log(`Aperçu généré : ${ogImage}`);

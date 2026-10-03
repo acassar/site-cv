@@ -26,18 +26,23 @@
   <div class="toolbar">
     <button class="btn" id="print-btn" type="button">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      PDF 1 page
+      <span>PDF 1 page</span>
     </button>
     <button class="btn btn-ghost" id="print-full-btn" type="button">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      PDF complet (2 pages)
+      <span>PDF complet (2 pages)</span>
     </button>
+    <div class="lang-switch" role="group" aria-label="Langue / Language">
+      <button type="button" data-lang="fr" lang="fr">FR</button>
+      <button type="button" data-lang="en" lang="en">EN</button>
+    </div>
   </div>
 
   <main class="page" id="cv"></main>
   <section class="page details-page" id="cv-details" aria-label="Réalisations en détail"></section>
 
   <script src="cv-data.js"></script>
+  <script src="cv-data.en.js"></script>
   <script src="render.js"></script>
 </body>
 </html>

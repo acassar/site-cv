@@ -1,5 +1,16 @@
 (function () {
-  const cv = window.CV;
+  const labels = {
+    fr: {
+      contact: "Contact", education: "Diplômes", skills: "Compétences", languages: "Langues", hobbies: "Loisirs",
+      experience: "Expérience professionnelle", more: "Détails", detailsTitle: "Réalisations en détail",
+      detailsAria: "Réalisations en détail", pdf: "PDF 1 page", pdfFull: "PDF complet (2 pages)", doc: "CV",
+    },
+    en: {
+      contact: "Contact", education: "Education", skills: "Skills", languages: "Languages", hobbies: "Hobbies",
+      experience: "Professional experience", more: "Details", detailsTitle: "Detailed achievements",
+      detailsAria: "Detailed achievements", pdf: "PDF 1 page", pdfFull: "Full PDF (2 pages)", doc: "Resume",
+    },
+  };
 
   const esc = (s) =>
     String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -26,147 +37,170 @@
     const now = new Date();
     return Math.floor((now.getFullYear() * 12 + now.getMonth() + 1 - (y * 12 + m)) / 12);
   };
-  const summary = cv.summary.replace("{years}", yearsSince(cv.careerStart));
+  function render(lang) {
+    const cv = Object.assign({}, window.CV, lang === "en" ? window.CV_EN : {});
+    const t = labels[lang];
+    const summary = cv.summary.replace("{years}", yearsSince(cv.careerStart));
 
-  const sideTitle = (t) => `<h3 class="side-title">${esc(t)}</h3>`;
+    const sideTitle = (title) => `<h3 class="side-title">${esc(title)}</h3>`;
 
-  const sidebar = `
-    <aside class="sidebar">
-      <div class="photo">
-        <span>${esc(initials(cv.firstName + " " + cv.lastName))}</span>
-        ${cv.photo ? `<img src="${esc(cv.photo)}" alt="" onerror="this.remove()">` : ""}
-      </div>
+    const sidebar = `
+      <aside class="sidebar">
+        <div class="photo">
+          <span>${esc(initials(cv.firstName + " " + cv.lastName))}</span>
+          ${cv.photo ? `<img src="${esc(cv.photo)}" alt="" onerror="this.remove()">` : ""}
+        </div>
 
-      <section>
-        ${sideTitle("Contact")}
-        <ul class="contact">
-          ${cv.contact.map((c) => `<li${c.printOnly ? ' class="print-only"' : ""}>${icon(c.icon)}${c.href ? `<a href="${esc(c.href)}">${esc(c.label)}</a>` : `<span>${esc(c.label)}</span>`}</li>`).join("")}
-        </ul>
-      </section>
+        <section>
+          ${sideTitle(t.contact)}
+          <ul class="contact">
+            ${cv.contact.map((c) => `<li${c.printOnly ? ' class="print-only"' : ""}>${icon(c.icon)}${c.href ? `<a href="${esc(c.href)}">${esc(c.label)}</a>` : `<span>${esc(c.label)}</span>`}</li>`).join("")}
+          </ul>
+        </section>
 
-      <section>
-        ${sideTitle("Diplômes")}
-        <ul class="edu">
-          ${cv.education
+        <section>
+          ${sideTitle(t.education)}
+          <ul class="edu">
+            ${cv.education
+              .map(
+                (e) => `<li>
+                  <span class="year">${esc(e.year)}</span>
+                  <span class="degree">${esc(e.degree)}</span>
+                  <span class="school">${esc(e.school)}</span>
+                </li>`
+              )
+              .join("")}
+          </ul>
+        </section>
+
+        <section class="skills">
+          ${sideTitle(t.skills)}
+          ${cv.skills
             .map(
-              (e) => `<li>
-                <span class="year">${esc(e.year)}</span>
-                <span class="degree">${esc(e.degree)}</span>
-                <span class="school">${esc(e.school)}</span>
-              </li>`
+              (g) => `<h4>${esc(g.group)}</h4>
+              <ul>${g.items
+                .map(
+                  (i) => `<li>${esc(i.label)}${
+                    i.favorite
+                      ? '<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg>'
+                      : ""
+                  }</li>`
+                )
+                .join("")}</ul>`
             )
             .join("")}
-        </ul>
-      </section>
+        </section>
 
-      <section class="skills">
-        ${sideTitle("Compétences")}
-        ${cv.skills
-          .map(
-            (g) => `<h4>${esc(g.group)}</h4>
-            <ul>${g.items
-              .map(
-                (i) => `<li>${esc(i.label)}${
-                  i.favorite
-                    ? '<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg>'
-                    : ""
-                }</li>`
-              )
-              .join("")}</ul>`
-          )
-          .join("")}
-      </section>
+        <section class="side-bottom">
+          ${sideTitle(t.languages)}
+          <div class="tags">${cv.languages.map((l) => `<span class="tag">${esc(l)}</span>`).join("")}</div>
+          ${sideTitle(t.hobbies)}
+          <div class="tags">${cv.hobbies.map((h) => `<span class="tag">${esc(h)}</span>`).join("")}</div>
+        </section>
+      </aside>`;
 
-      <section class="side-bottom">
-        ${sideTitle("Langues")}
-        <div class="tags">${cv.languages.map((l) => `<span class="tag">${esc(l)}</span>`).join("")}</div>
-        ${sideTitle("Loisirs")}
-        <div class="tags">${cv.hobbies.map((h) => `<span class="tag">${esc(h)}</span>`).join("")}</div>
-      </section>
-    </aside>`;
-
-  const thread = (x) => `
-    <section class="thread">
-      <div class="day"><span>${esc(x.period)}</span></div>
-      <div class="msg in">
-        <div class="avatar">${esc(initials(x.company))}</div>
-        <div class="bubble">
-          <strong>${esc(x.company)}</strong>
-          <small>${esc(x.detail)}</small>
+    const thread = (x) => `
+      <section class="thread">
+        <div class="day"><span>${esc(x.period)}</span></div>
+        <div class="msg in">
+          <div class="avatar">${esc(initials(x.company))}</div>
+          <div class="bubble">
+            <strong>${esc(x.company)}</strong>
+            <small>${esc(x.detail)}</small>
+          </div>
         </div>
-      </div>
-      ${x.missions.map(mission).join("")}
-    </section>`;
+        ${x.missions.map(mission).join("")}
+      </section>`;
 
-  const bullets = (items) => `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`;
+    const bullets = (items) => `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`;
 
-  function mission(m) {
-    const body = `<p>${esc(m.text)}</p>
-      <div class="meta">${
+    function mission(m) {
+      const body = `<p>${esc(m.text)}</p>
+        <div class="meta">${
+          m.details
+            ? `<span class="more-hint">${esc(t.more)}<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>`
+            : ""
+        }<span class="stack">${esc(m.stack)}</span><svg class="ticks" viewBox="0 0 22 16" aria-hidden="true"><path d="m1.5 8.5 4 4 9-10m-5 10 9-10"/></svg></div>`;
+      return `<div class="msg out">${
         m.details
-          ? '<span class="more-hint">Détails<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>'
-          : ""
-      }<span class="stack">${esc(m.stack)}</span><svg class="ticks" viewBox="0 0 22 16" aria-hidden="true"><path d="m1.5 8.5 4 4 9-10m-5 10 9-10"/></svg></div>`;
-    return `<div class="msg out">${
-      m.details
-        ? `<details class="bubble"><summary>${body}</summary><div class="more">${bullets(m.details)}</div></details>`
-        : `<div class="bubble">${body}</div>`
-    }</div>`;
+          ? `<details class="bubble"><summary>${body}</summary><div class="more">${bullets(m.details)}</div></details>`
+          : `<div class="bubble">${body}</div>`
+      }</div>`;
+    }
+
+    const detailBlock = (x) => `
+      <section class="detail-block">
+        <div class="detail-company">
+          <div class="avatar">${esc(initials(x.company))}</div>
+          <div><strong>${esc(x.company)}</strong><small>${esc(x.detail)}</small></div>
+          <span class="period">${esc(x.period)}</span>
+        </div>
+        <div class="detail-missions">
+          ${x.missions
+            .filter((m) => m.details)
+            .map(
+              (m) => `<article class="detail-mission">
+                <h3>${esc(m.text)}</h3>
+                <span class="stack">${esc(m.stack)}</span>
+                ${bullets(m.details)}
+              </article>`
+            )
+            .join("")}
+        </div>
+      </section>`;
+
+    const detailsPage = `
+      <header class="details-header">
+        <div>
+          <h2>${esc(cv.firstName)} <span>${esc(cv.lastName)}</span></h2>
+          <p>&gt; ${esc(t.detailsTitle)}</p>
+        </div>
+        <span class="page-num">2/2</span>
+      </header>
+      ${cv.experience.map(detailBlock).join("")}`;
+
+    const main = `
+      <div class="main">
+        <header class="header">
+          <h1 class="name">${esc(cv.firstName)} <span>${esc(cv.lastName)}</span></h1>
+          <p class="role">&gt; ${esc(cv.role)}<span class="caret"></span></p>
+          <p class="summary">${esc(summary)}</p>
+        </header>
+
+        <h2 class="section-title">${esc(t.experience)}</h2>
+        <div class="chat">
+          ${cv.experience.map(thread).join("")}
+          <div class="msg out typing" aria-hidden="true"><div class="bubble"><i></i><i></i><i></i></div></div>
+        </div>
+      </div>`;
+
+    document.getElementById("cv").innerHTML = main + sidebar;
+    const details = document.getElementById("cv-details");
+    details.innerHTML = detailsPage;
+    details.setAttribute("aria-label", t.detailsAria);
+
+    document.documentElement.lang = lang;
+    document.title = `${cv.firstName} ${cv.lastName} — ${t.doc}`;
+    document.querySelector("#print-btn span").textContent = t.pdf;
+    document.querySelector("#print-full-btn span").textContent = t.pdfFull;
+    document.querySelectorAll(".lang-switch button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === lang));
   }
 
-  const detailBlock = (x) => `
-    <section class="detail-block">
-      <div class="detail-company">
-        <div class="avatar">${esc(initials(x.company))}</div>
-        <div><strong>${esc(x.company)}</strong><small>${esc(x.detail)}</small></div>
-        <span class="period">${esc(x.period)}</span>
-      </div>
-      <div class="detail-missions">
-        ${x.missions
-          .filter((m) => m.details)
-          .map(
-            (m) => `<article class="detail-mission">
-              <h3>${esc(m.text)}</h3>
-              <span class="stack">${esc(m.stack)}</span>
-              ${bullets(m.details)}
-            </article>`
-          )
-          .join("")}
-      </div>
-    </section>`;
-
-  const detailsPage = `
-    <header class="details-header">
-      <div>
-        <h2>${esc(cv.firstName)} <span>${esc(cv.lastName)}</span></h2>
-        <p>&gt; Réalisations en détail</p>
-      </div>
-      <span class="page-num">2/2</span>
-    </header>
-    ${cv.experience.map(detailBlock).join("")}`;
-
-  const main = `
-    <div class="main">
-      <header class="header">
-        <h1 class="name">${esc(cv.firstName)} <span>${esc(cv.lastName)}</span></h1>
-        <p class="role">&gt; ${esc(cv.role)}<span class="caret"></span></p>
-        <p class="summary">${esc(summary)}</p>
-      </header>
-
-      <h2 class="section-title">Expérience professionnelle</h2>
-      <div class="chat">
-        ${cv.experience.map(thread).join("")}
-        <div class="msg out typing" aria-hidden="true"><div class="bubble"><i></i><i></i><i></i></div></div>
-      </div>
-    </div>`;
-
-  document.getElementById("cv").innerHTML = main + sidebar;
-  document.getElementById("cv-details").innerHTML = detailsPage;
-
   const params = new URLSearchParams(location.search);
+  const browserLang = (navigator.language || "fr").toLowerCase().startsWith("fr") ? "fr" : "en";
+  render(labels[params.get("lang")] ? params.get("lang") : browserLang);
   if (params.has("og")) document.body.classList.add("og");
   if (params.has("complet")) document.body.classList.add("complete");
-  document.title = `${cv.firstName} ${cv.lastName} — CV`;
+
+  document.querySelectorAll(".lang-switch button").forEach((b) =>
+    b.addEventListener("click", () => {
+      render(b.dataset.lang);
+      params.set("lang", b.dataset.lang);
+      try {
+        history.replaceState(null, "", `?${params}`);
+      } catch (e) {}
+    })
+  );
 
   const print = (complete) => {
     document.body.classList.toggle("complete", complete);
