@@ -1,0 +1,8 @@
+{
+  "name": "site-cv",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "pdf": "node export-pdf.mjs"
+  }
+}
