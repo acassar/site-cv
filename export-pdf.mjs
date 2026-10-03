@@ -1,11 +1,16 @@
 import { execFileSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { runInNewContext } from "node:vm";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const input = pathToFileURL(join(here, "index.html")).href;
-const output = join(here, "cv.pdf");
+const window = {};
+runInNewContext(readFileSync(join(here, "cv-data.js"), "utf8"), { window });
+const slug = (s) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/[^A-Za-z0-9]+/g, "-");
+const output = join(here, `${slug(window.CV.firstName)}-${slug(window.CV.lastName)}-CV.pdf`);
+const ogImage = join(here, "og-image.png");
 
 const candidates = [
   process.env.CHROME_PATH,
@@ -34,4 +39,15 @@ execFileSync(browser, [
   input,
 ], { stdio: "ignore" });
 
+execFileSync(browser, [
+  "--headless=new",
+  "--disable-gpu",
+  "--hide-scrollbars",
+  "--virtual-time-budget=5000",
+  "--window-size=1200,630",
+  `--screenshot=${ogImage}`,
+  `${input}?og`,
+], { stdio: "ignore" });
+
 console.log(`PDF généré : ${output}`);
+console.log(`Aperçu généré : ${ogImage}`);

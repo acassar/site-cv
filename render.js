@@ -67,7 +67,9 @@
             <ul>${g.items
               .map(
                 (i) => `<li>${esc(i.label)}${
-                  i.favorite ? '<span class="star" title="Favori">★</span>' : ""
+                  i.favorite
+                    ? '<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg>'
+                    : ""
                 }</li>`
               )
               .join("")}</ul>`
@@ -98,7 +100,7 @@
           (m) => `<div class="msg out">
             <div class="bubble">
               <p>${esc(m.text)}</p>
-              <div class="meta"><span class="stack">${esc(m.stack)}</span><span class="ticks">✓✓</span></div>
+              <div class="meta"><span class="stack">${esc(m.stack)}</span><svg class="ticks" viewBox="0 0 22 16" aria-hidden="true"><path d="m1.5 8.5 4 4 9-10m-5 10 9-10"/></svg></div>
             </div>
           </div>`
         )
@@ -120,7 +122,8 @@
       </div>
     </div>`;
 
-  document.getElementById("cv").innerHTML = sidebar + main;
+  document.getElementById("cv").innerHTML = main + sidebar;
+  if (new URLSearchParams(location.search).has("og")) document.body.classList.add("og");
   document.title = `${cv.firstName} ${cv.lastName} — CV`;
   document.getElementById("print-btn").addEventListener("click", () => window.print());
 })();
